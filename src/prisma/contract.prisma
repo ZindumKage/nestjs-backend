@@ -1,10 +1,10 @@
 // use prisma-8
-
 model User {
   id        Int                @id @default(autoincrement())
   email     String             @unique
   username  String?            @unique
   name      String?
+  password  String
   posts     Post[]
   createdAt DateTime           @default(now()) @onCreate(now())
   updatedAt temporal.UpdatedAt
@@ -18,14 +18,12 @@ model Post {
   authorId  Int
   createdAt DateTime           @default(now()) @onCreate(now())
   updatedAt temporal.UpdatedAt
-
-  
 }
 
 model Enrollment {
-  userId    Int 
-  courseId  Int
-  enrolledAt DateTime          @default(now()) @onCreate(now())
+  userId     Int
+  courseId   Int
+  enrolledAt DateTime @default(now()) @onCreate(now())
 
   @@unique([userId, courseId])
 }
