@@ -1,16 +1,10 @@
 import { Global, Module } from '@nestjs/common';
-import { db } from '../prisma/db';
 
-export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
+import { DatabaseService } from './database.service';
 
 @Global()
 @Module({
-    providers: [
-        {
-            provide: DATABASE_CONNECTION,
-            useValue: db,
-        },
-    ],
-    exports: [DATABASE_CONNECTION],
+  providers: [DatabaseService],
+  exports: [DatabaseService],
 })
 export class DatabaseModule {}

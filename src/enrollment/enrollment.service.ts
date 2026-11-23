@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import {
-  createEnrollment,
-  findEnrollmentByUserId,
-  getAllEnrollment,
-  updateEnrollment,
-} from './enrollment.queries';
+
+import { createEnrollmentDto, updateEnrollmentDto } from './dto/enrollment.dto';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class EnrollmentService {
-  async create(userId: number, courseId: number) {
-    return createEnrollment(userId, courseId);
+  constructor(private readonly db: DatabaseService) {}
+
+  async create(createEnrollmentDto: createEnrollmentDto) {
+    return await this.db.orm.public.Enrollment.create({
+      ...createEnrollmentDto,
+    });
   }
 
   async findAll() {
-    return getAllEnrollment();
+    return await this.db.orm.public.Enrollment.all();
   }
 
-  async findByUserId(userId: number) {
-    return findEnrollmentByUserId(userId);
+  async findEnrollmentByUserId(userId: number) {
+    return await this.db.orm.public.Enrollment.where({
+      userId: userId,
+    }).first();
   }
 
-  async update(userId: number, courseId: number) {
-    return updateEnrollment(userId, courseId);
+  async updateEnrollment(
+    userId: number,
+    updateEnrollmentDto: updateEnrollmentDto,
+  ) {
+    return await this.db.orm.public.Enrollment.where({ userId: userId }).update(
+      {
+        ...updateEnrollmentDto,
+      },
+    );
   }
 }

@@ -1,5 +1,8 @@
-export class EnrollmentDto {
-    userId: number;
-    courseId: number;
+export class createEnrollmentDto {
+  userId: number;
+  courseId: number;
 }
 
+export class updateEnrollmentDto {
+  courseId: number;
+}
